@@ -86,10 +86,10 @@ function mostrarComidasConForHeach() {
   
    comidas.forEach( comida => {
 
-    comidacontainer.innerHTML +=
+    comidaContainer.innerHTML +=
  `    
  <article class= "card" > 
-      <h2> $(comidas [8].ingredientes)</h2> 
+      <h2> ${comidas [8].ingredientes}</h2>  
 
  <ul> 
       ${comida.ingredientes.map(ingrediente => `<li>${ingrediente} </li>`).join('')}
