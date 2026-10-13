@@ -7,89 +7,26 @@ fetch('./data/comidas.json')          // Ruta al archivo JSON
     console.log('Comidas cargadas desde JSON:');
     console.log(data);
     comidas = data;                   // Asignar el JSON a la variable comidas
+    mostrarComidas(comidas)
   })
   .catch(error => {                   // Manejo de errores al leer el archivo JSON
     console.error('Error al leer el archivo JSON:', error);
   });
 
+let comidas = []
 
 
 
-
-
-let comidas = [
-  {
-    "nombre": "Asado",
-    "categoria": "Parrilla",
-    "provincia": "Buenos Aires",
-    "ingredientes": ["Carne vacuna", "Sal", "Chimichurri"]
-  },
-  {
-    "nombre": "Empanadas",
-    "categoria": "Horno",
-    "provincia": "Tucumán",
-    "ingredientes": ["Carne", "Cebolla", "Aceitunas", "Huevo"]
-  },
-  {
-    "nombre": "Locro",
-    "categoria": "Guiso",
-    "provincia": "Salta",
-    "ingredientes": ["Maíz", "Porotos", "Chorizo", "Panceta", "Zapallo"]
-  },
-  {
-    "nombre": "Milanesa",
-    "categoria": "Frito",
-    "provincia": "Buenos Aires",
-    "ingredientes": ["Carne", "Huevo", "Pan rallado", "Aceite"]
-  },
-  {
-    "nombre": "Humita en Chala",
-    "categoria": "Horno",
-    "provincia": "Jujuy",
-    "ingredientes": ["Maíz", "Queso", "Cebolla", "Ají molido"]
-  },
-  {
-    "nombre": "Choripán",
-    "categoria": "Parrilla",
-    "provincia": "Córdoba",
-    "ingredientes": ["Chorizo", "Pan", "Chimichurri"]
-  },
-  {
-    "nombre": "Provoleta",
-    "categoria": "Parrilla",
-    "provincia": "Buenos Aires",
-    "ingredientes": ["Queso provolone", "Orégano", "Aceite de oliva"]
-  },
-  {
-    "nombre": "Milanesas a la napolitana",
-    "categoria": "Frito",
-    "provincia": "Santa Fe",
-    "ingredientes": ["Carne", "Tomate", "Queso", "Jamón", "Orégano"]
-  },
-  {
-    "nombre": "Matambre a la pizza",
-    "categoria": "Parrilla",
-    "provincia": "Buenos Aires",
-    "ingredientes": ["Matambre", "Queso", "Tomate", "Orégano"]
-  },
-  {
-    "nombre": "Torta Frita",
-    "categoria": "Frito",
-    "provincia": "Entre Ríos",
-    "ingredientes": ["Harina", "Agua", "Sal", "Grasa"]
-  }
-];
-
-function mostrarComidasConForHeach() {
+function mostrarComidas(lista) {
   const comidaContainer = document.getElementById("comidaContainer")
 
   
-   comidas.forEach( comida => {
+   lista.forEach( comida=> {
 
     comidaContainer.innerHTML +=
  `    
  <article class= "card" > 
-      <h2> ${comidas [8].ingredientes}</h2>  
+      <h2> ${comidas.nombre}</h2>  
 
  <ul> 
       ${comida.ingredientes.map(ingrediente => `<li>${ingrediente} </li>`).join('')}
@@ -101,5 +38,39 @@ function mostrarComidasConForHeach() {
    }) 
 
    }
-  mostrarComidasConForHeach()
 
+   const agregarComidaForm = document.getElementById("agregarComidaForm")
+
+   agregarComidaForm.addEventListener("submit", (event) => {
+
+    event.preventDefault()
+
+     alert("comida agregada: " + event.target.nombre.value) ;
+
+     let nuevaComida = {
+     nombre: event.target.nombre.value,
+     provincia: event.target.provincia.value,
+     categoria: event.target.categoria.value,
+     ingredientes: event.target.ingredientes.value.split(",")
+    }
+
+   
+    comidas.push(nuevaComida)
+     
+    mostrarComidas(comidas)
+
+    event.target.reset()
+      })
+  
+
+  const filtroCategoría = document.getElementById("filtroCategoría")
+
+  filtroCategoría.addEventListener("change", () => {
+
+let comidasFiltradas = comidas.filter(comida => {
+
+return comida.categoria.includes(filtroCategoría.value)
+})
+
+mostrarComidas(comidasFiltradas)
+  })
